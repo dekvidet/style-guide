@@ -1,4 +1,4 @@
-# React Frontend Style Guide (Draft)
+# JS-React-Redux Style Guide (Draft)
 
   > The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
@@ -18,7 +18,7 @@
   - You MUST follow the [Airbnb React/JSX Style Guide](https://github.com/airbnb/javascript/tree/master/react)
   - You MUST follow the [Ducks: Redux Reducer Bundles](https://github.com/erikras/ducks-modular-redux) pattern
   - You MUST follow the [Flux Standard Action](https://github.com/redux-utilities/flux-standard-action)
-  - You MUST follow our [Directory Structuring Style Guide](https://github.com/dekvidet/style-guide/directory-structuring-guide.md
+  - You MUST follow our [Directory Structuring Style Guide](directory-structuring-guide.md)
 
 If anything in this style guide conflicts with the 3rd party guides, then this guide SHALL overwrite the 3rd party one(s).
 
@@ -360,27 +360,30 @@ If anything in this style guide conflicts with the 3rd party guides, then this g
     )
     ```
   - **Rendering nothing in `render`:** MUST happen via `return null` (React requires a return value in `render` in all cases).
+  - **Complex conditions:** SHOULD be avoided for conditional rendering. Instead `{expression && <Component />}` use a separate method.
+    ```jsx
+    // bad
+    {condition1 && (condition2 || condition3) && (
+      <Component>
+        ...
+      </Component>
+    )}
 
-Proposals:
+    // better
+    {this.renderComponent()}
 
-don't use `{expression && <Component />}`, instead use a separate method
-
-```
-{expression && (
-  <Component>
     ...
-  </Component>
-)}
-```
 
-```
-{expression && (
-  <Component
-    fullWidth
-    style={STYLE}
-  />
-)}
-```
+    renderComponent() {
+      if (condition1 && (condition2 || condition3)) {
+        return (
+          <Component>
+            ...
+          </Component>
+        )
+      }
+    }
+    ```
 
 ## Structuring Guidelines 
 

@@ -6,7 +6,7 @@
 
   1. [Component and File Naming](#component-and-file-naming)
   1. [App Structure](#app-structure)
-  1. [Scenes and Components](#Scenes-and-components)
+  1. [Scenes and Components](#scenes-and-components)
   1. [Reducers](#reducers)
   1. [Sagas](#sagas)
   1. [API](#api)
