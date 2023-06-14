@@ -24,6 +24,17 @@ If anything in this style guide conflicts with the 3rd party guides, then this g
 
 ## Naming
 
+Names should be unique, identifiable and clearly communicate the intent. A good name replaces a comment describing what the actual thing does. 
+
+  - **Generic naming:** You MUST NOT use:
+   - single letter names (`a`, `b`, `c`) because they are hard to understand and impossible to search for (some exceptions are discussed later)
+   - names followed by incrementing numbers (`car1`, `car2`, `car3`)
+   - confusingly similiar names (`computationalNodeProcessingDataCreator`, `computationalNodeProcessingDataEditor`) because they are easy to mix up
+   - names that try to imitate a reserved language keyword (`dis`, `klass`).
+  - **Part of speech**: Variable names, classes, components SHOULD be nouns, while methods, functions, procedures SHOULD be verbs.
+  - **Measurement variables:** If a variable holds a measurement, it's name SHOULD containt the masurement's subject and units like `litresOfConsumedWater`, `lenghtOfFieldInMeters`. For integer measurement of collections and strings use the `Count` and `Length` suffixes respectively, for example:  `eventCount`, `nameLength`.
+  - **Numeric constants:** When you need to use a numeric constant (unless it is trivial like divison by 2 for parity or comparing to 0 when something is empty) you MUST create a SCREAMING_SNAKE_CASE `const` variable for it and use that.
+  - **Functions returning booleans**: When a function returns a boolean its name should start with a verb indicating this nature: `hasChildren`, `isEven`, `canUpdate`.
   - **Casing:** In case of camelCase and PascalCase naming every 2nd or so word's letters MUST be lovercase except the first letter of the word. This applies to abbervations and acronyms too. The only reason to have 2 or more uppercase letter next to eachother is when one of the letters is a single letter word like "I" although it is RECOMMENDED to not use single letter words in names.
     ```jsx
     // bad
@@ -77,7 +88,7 @@ If anything in this style guide conflicts with the 3rd party guides, then this g
     // good
     handleAddButtonClick()
     handleDescriptionChange()
-    handleCanvasEvents() // if handles at leas 2 event
+    handleCanvasEvents() // if handles at least 2 event
     ```
   - The parameters of `mapStateToProps` and `mapDispatchToProps` MUST be named exactly like this:
     ```jsx
@@ -85,10 +96,18 @@ If anything in this style guide conflicts with the 3rd party guides, then this g
     const mapStateToProps = (state, ownProps) => {}
     const mapDispatchToProps = (dispatch, ownProps) => {}
     ```
-  - **Single letter variable names:** You SHOULD avoid naming variables to single letter except for really generic things like `i` in for loops or `a` and `b` in comparing functions.
+  - **Single letter variable names:** You SHOULD avoid naming variables to single letters except for really generic things like `i` in for loops, `a` and `b` in comparing arrow functions, or the first letter of an entity in a single line arrow function. For nested loops you SHOULD NOT use single letter variable names unless you traverse a multi dimensional entity in which case `x`, `y`, `z` (maybe `i`, `j`, `k`) are acceptable.
     ```jsx
-    // discouraged
-    interviews.filter(i => i.managed_by === this.props.currentUser.name)
+    // bad 
+    interviews.filter(i => {
+      if (i.managed_by === this.props.currentUser.name) {
+        checkAvailability
+      }
+      return false
+    })
+
+    // ok
+    cars.filter(c => c.managed_by === this.props.currentUser.name)
 
     // encouraged
     interviews.filter(interview => interview.managed_by === this.props.currentUser.name)
@@ -156,7 +175,7 @@ If anything in this style guide conflicts with the 3rd party guides, then this g
       return sortedItems
     }
     ```
-  - **Temporary variables**: You SHOULD create temporary/shortcut variables for code that:
+  - **Temporary variables:** You SHOULD create temporary/shortcut variables for code that:
     - Is used more than once - to implement DRY.
     - Needs explaining due to its complexity - to increase readability.
     - Needs specific names in the given context - to increase readability.
@@ -185,6 +204,8 @@ If anything in this style guide conflicts with the 3rd party guides, then this g
     const result = count
     ++count
     ```
+  - **Output arguments:** A function SHOULD NOT modify [pass by "copy of a reference"](https://stackoverflow.com/a/13104500/1494454) parameters (objects properties). In JS if a parameter is an object (unless you redefine the parameter) if you modify it (its properties) this will change the object that was passed as an argument to the function. While this can be used as a technique it is usually discouraged since it is a side effect that might become unnoticed. Unless it is required for considerable performance optimization, you SHOULD return a copy of the object or array.
+  - **Modifying parameters:** It is RECOMMENDED to not modify a function's parameters. They should be treated as immutable so they can act as a source of truth for that function.
 
 ## Duck Style
 
